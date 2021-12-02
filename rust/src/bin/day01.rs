@@ -1,22 +1,27 @@
 use std::io::{self, BufRead};
-use std::str::FromStr;
 
-fn count_ups(it: impl Iterator<Item = impl PartialOrd + Copy>) -> usize {
-    it.fold((None, 0), |(last, count), x| {
-        last.map(|last| (Some(x), if x > last { count + 1 } else { count }))
-            .unwrap_or_else(|| (Some(x), 0))
-    })
-    .1
-}
 fn main() -> Result<(), io::Error> {
     let input: Vec<u64> = io::stdin()
         .lock()
         .lines()
-        .map(|line| line.unwrap().parse().unwrap())
+        .flatten()
+        .map(|line| line.parse())
+        .flatten()
         .collect();
-    let part1_result = count_ups(input.iter());
-    let part2_result = count_ups(input.windows(3).map(|w| w.iter().sum::<u64>()));
+
+    let (part1_result, part2_result) = input
+        .iter()
+        .zip(input.iter().skip(1))
+        .zip(input.iter().skip(3).chain(&[0, 0]))
+        .fold((0, 0), |(count1, count2), ((a, b), c)| {
+            (
+                if b > a { count1 + 1 } else { count1 },
+                if c > a { count2 + 1 } else { count2 },
+            )
+        });
+
     println!("Part 1: {}", part1_result);
     println!("Part 2: {}", part2_result);
+
     Ok(())
 }
