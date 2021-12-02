@@ -16,7 +16,7 @@ fn main() -> Result<(), io::Error> {
         .map(|line| line.parse())
         .flatten()
         .fold(
-            ([0, 0, 0, 0], E0, 0usize, 0usize),
+            ([0, 0, 0, 0], E0, 0, 0),
             |([a, b, c, d], win_state, count1, count2), x: u64| match win_state {
                 E0 => ([x, 0, 0, 0], E1, 0, 0),
                 E1 => ([a, x, 0, 0], E2, (x > a).into(), 0),
