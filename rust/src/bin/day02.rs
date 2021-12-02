@@ -39,8 +39,7 @@ fn main() -> Result<(), Error> {
                         })
                 })
             },
-        )
-        .unwrap();
+        )?;
     println!("Part 1 result: {}", horiz * p1_depth);
     println!("Part 2 result: {}", horiz * p2_depth);
     Ok(())
