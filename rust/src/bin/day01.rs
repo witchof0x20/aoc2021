@@ -14,10 +14,7 @@ fn main() -> Result<(), io::Error> {
         .zip(input.iter().skip(1))
         .zip(input.iter().skip(3).chain(&[0, 0]))
         .fold((0, 0), |(count1, count2), ((a, b), c)| {
-            (
-                if b > a { count1 + 1 } else { count1 },
-                if c > a { count2 + 1 } else { count2 },
-            )
+            (count1 + usize::from(b > a), count2 + usize::from(c > a))
         });
 
     println!("Part 1: {}", part1_result);
